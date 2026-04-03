@@ -197,6 +197,12 @@ These only run if specific files changed:
 | PR closed (any)            | `util-notify-pr-status.yml` |
 | PR merged to `release/*`   | `release-publish.yml`       |
 
+### On Push to `master`
+
+| Event             | Workflow       | Condition                   |
+|-------------------|----------------|-----------------------------|
+| Push to `master`  | `cnb_sync.yml` | requires `CNB_TOKEN` secret |
+
 ### Manual Triggers (PR Comments)
 
 | Command            | Workflow                     | Permissions         |
