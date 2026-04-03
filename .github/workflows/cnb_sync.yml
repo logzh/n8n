@@ -1,0 +1,39 @@
+name: Sync to CNB
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get repo name
+        id: repo-name
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          echo "name=$REPO_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Validate CNB namespace
+        run: |
+          if [ -z "${{ vars.CNB_NAMESPACE }}" ]; then
+            echo "Missing CNB_NAMESPACE repository variable"
+            exit 1
+          fi
+
+      - name: Sync to CNB repository
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:${{ github.workspace }}" \
+            -w "${{ github.workspace }}" \
+            -e PLUGIN_TARGET_URL="https://cnb.cool/${{ vars.CNB_NAMESPACE }}/${{ steps.repo-name.outputs.name }}.git" \
+            -e PLUGIN_AUTH_TYPE="https" \
+            -e PLUGIN_USERNAME="cnb" \
+            -e PLUGIN_PASSWORD="${{ secrets.CNB_TOKEN }}" \
+            -e PLUGIN_FORCE="true" \
+            tencentcom/git-sync
