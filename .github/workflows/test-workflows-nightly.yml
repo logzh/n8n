@@ -13,6 +13,7 @@ on:
 
 jobs:
   run_workflow_tests:
+    if: github.repository == 'n8n-io/n8n'
     name: Run Workflow Tests
     uses: ./.github/workflows/test-workflows-callable.yml
     with:

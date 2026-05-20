@@ -20,6 +20,7 @@ concurrency:
 
 jobs:
   prepare-docker:
+    if: github.event_name != 'schedule' || github.repository == 'n8n-io/n8n'
     uses: ./.github/workflows/prepare-docker-reusable.yml
     secrets: inherit
 

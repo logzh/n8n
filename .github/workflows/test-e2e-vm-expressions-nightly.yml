@@ -13,6 +13,7 @@ on:
 
 jobs:
   prepare-docker:
+    if: github.repository == 'n8n-io/n8n'
     uses: ./.github/workflows/prepare-docker-reusable.yml
     with:
       branch: ${{ github.event_name == 'schedule' && 'master' || inputs.branch }}
@@ -36,7 +37,7 @@ jobs:
     name: Notify Slack on failure
     runs-on: ubuntu-slim
     needs: [e2e]
-    if: ${{ always() && github.event_name == 'schedule' && contains(needs.*.result, 'failure') }}
+    if: ${{ github.repository == 'n8n-io/n8n' && always() && github.event_name == 'schedule' && contains(needs.*.result, 'failure') }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:

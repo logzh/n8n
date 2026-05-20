@@ -9,6 +9,7 @@ on:
 jobs:
   # Cache-aware: no-op if an ancestor already populated the SHA-keyed cache.
   prepare-docker:
+    if: github.event_name != 'schedule' || github.repository == 'n8n-io/n8n'
     uses: ./.github/workflows/prepare-docker-reusable.yml
     secrets: inherit
 
