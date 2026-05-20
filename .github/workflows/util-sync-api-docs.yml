@@ -19,6 +19,7 @@ on:
 
 jobs:
   sync-public-api:
+    if: github.repository == 'n8n-io/n8n'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,6 +35,9 @@ jobs:
         uses: ./.github/actions/setup-nodejs
         with:
           build-command: ''
+
+      - name: Build @n8n/agents
+        run: pnpm --filter @n8n/agents build
 
       - name: Build Public API Schema
         run: pnpm run build:data

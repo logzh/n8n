@@ -44,6 +44,7 @@ on:
 
 jobs:
   determine-build-context:
+    if: github.event_name != 'schedule' || github.repository == 'n8n-io/n8n'
     name: Determine Build Context
     runs-on: ubuntu-latest
     outputs:

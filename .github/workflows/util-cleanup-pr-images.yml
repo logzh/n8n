@@ -7,6 +7,7 @@ on:
 
 jobs:
   cleanup:
+    if: github.repository == 'n8n-io/n8n'
     name: 'Delete stale CI images'
     runs-on: ubuntu-slim
     permissions:
